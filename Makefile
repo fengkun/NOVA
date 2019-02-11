@@ -42,12 +42,12 @@ H2B	:= $(H2B-$(ARCH))
 RUN	:= $(RUN-$(ARCH))
 
 # Directories
-SRC_DIR	:= src
-INC_DIR	:= include
+SRC_DIR	:= src/$(ARCH) src
+INC_DIR	:= inc/$(ARCH) inc
 
 # Files
-SRC	:= hypervisor.ld $(sort $(wildcard $(SRC_DIR)/*.S)) $(sort $(wildcard $(SRC_DIR)/*.cpp))
-OBJ	:= $(patsubst %.ld,$(BLD_DIR)/$(ARCH)-%.o, $(patsubst %.S,$(BLD_DIR)/$(ARCH)-%.o, $(patsubst %.cpp,$(BLD_DIR)/$(ARCH)-%.o, $(notdir $(SRC)))))
+SRC	:= hypervisor.ld $(sort $(notdir $(foreach dir,$(SRC_DIR),$(wildcard $(dir)/*.S)))) $(sort $(notdir $(foreach dir,$(SRC_DIR),$(wildcard $(dir)/*.cpp))))
+OBJ	:= $(patsubst %.ld,$(BLD_DIR)/$(ARCH)-%.o, $(patsubst %.S,$(BLD_DIR)/$(ARCH)-%.o, $(patsubst %.cpp,$(BLD_DIR)/$(ARCH)-%.o, $(SRC))))
 DEP	:= $(patsubst %.o,%.d, $(OBJ))
 HYP	:= $(BLD_DIR)/$(ARCH)-hypervisor
 ELF	:= $(HYP).elf
