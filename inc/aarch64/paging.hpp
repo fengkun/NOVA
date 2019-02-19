@@ -1,5 +1,5 @@
 /*
- * External Symbols
+ * Paging
  *
  * Copyright (C) 2019 Udo Steinberg, BedRock Systems, Inc.
  *
@@ -17,15 +17,9 @@
 
 #pragma once
 
-#include "types.hpp"
-
-extern char __start_psci[], __start_spin[], GIT_VER[];
-
-extern mword PAGEH;
-extern mword EL2_TTBR0;
-extern mword LOAD_STOP;
-
-extern void (*CTORS_L)();
-extern void (*CTORS_C)();
-extern void (*CTORS_G)();
-extern void (*CTORS_E)();
+#define PTE_P           (1 << 0)        // Present
+#define PTE_nL          (1 << 1)        // Not Block
+#define PTE_MT(X)       (X << 2)        // Memory Type
+#define PTE_SH          (3 << 8)        // Inner Shareable
+#define PTE_A           (1 << 10)       // Accessed
+#define PTE_nG          (1 << 11)       // Not Global
