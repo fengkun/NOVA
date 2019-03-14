@@ -140,9 +140,6 @@ el2:
                         SET_PTE 2, EL2_LVL2L, LOAD_ADDR, EL2_LVL1L, PTE_nL | PTE_P
                         SET_PTE 1, EL2_LVL1L, LOAD_ADDR, LOAD_ADDR, PTE_nG | PTE_A | PTE_SH | PTE_MT (MT_IDX_MEM_WB) | PTE_P
 
-                        // Configure Page Tables: MMIO section (1G page)
-                        SET_PTE 2, EL2_LVL2L, UART_BASE_PL, UART_BASE_PL, PTE_nG | PTE_A | PTE_SH | PTE_MT (MT_IDX_DEV) | PTE_P
-
                         // Configure Page Tables: Link Section (2M pages)
                         SET_PTE 3, EL2_LVL3S, LINK_ADDR, EL2_LVL2H, PTE_nL | PTE_P
                         SET_PTE 2, EL2_LVL2H, LINK_ADDR, EL2_LVL1H, PTE_nL | PTE_P
