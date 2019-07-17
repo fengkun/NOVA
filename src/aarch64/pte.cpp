@@ -18,6 +18,7 @@
 #include "assert.hpp"
 #include "barrier.hpp"
 #include "hpt.hpp"
+#include "npt.hpp"
 #include "pte.hpp"
 #include "stdio.hpp"
 #include "util.hpp"
@@ -143,3 +144,4 @@ void Pte<PTT,L,B,I,O>::deallocate (unsigned l)
 }
 
 template class Pte<Hpt, 4, 9, uint64, uint64>;
+template class Pte<Npt, 3, 9, uint64, uint64>;
