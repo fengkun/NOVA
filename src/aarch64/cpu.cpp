@@ -18,6 +18,7 @@
 #include "arch.hpp"
 #include "cpu.hpp"
 #include "extern.hpp"
+#include "gicd.hpp"
 #include "stdio.hpp"
 
 unsigned Cpu::id, Cpu::hazard, Cpu::boot_cpu, Cpu::online;
@@ -236,6 +237,8 @@ void Cpu::init (unsigned cpu, unsigned e)
                  (feature (Mem_feature::HAFDBS) >= 2 ? 0 : TCR_A64_HD)                      |
                  (feature (Mem_feature::HAFDBS) >= 1 ? 0 : TCR_A64_HA)                      |
                  TCR_A64_RES0;
+
+    Gicd::init();
 
     boot_lock.unlock();
 }
