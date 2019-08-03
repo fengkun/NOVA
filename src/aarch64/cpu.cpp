@@ -19,6 +19,7 @@
 #include "cpu.hpp"
 #include "extern.hpp"
 #include "gicd.hpp"
+#include "gicr.hpp"
 #include "stdio.hpp"
 
 unsigned Cpu::id, Cpu::hazard, Cpu::boot_cpu, Cpu::online;
@@ -239,6 +240,7 @@ void Cpu::init (unsigned cpu, unsigned e)
                  TCR_A64_RES0;
 
     Gicd::init();
+    Gicr::init();
 
     boot_lock.unlock();
 }
