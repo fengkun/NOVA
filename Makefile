@@ -49,7 +49,11 @@ INC_DIR	:= inc/$(ARCH) inc
 SRC	:= hypervisor.ld $(sort $(notdir $(foreach dir,$(SRC_DIR),$(wildcard $(dir)/*.S)))) $(sort $(notdir $(foreach dir,$(SRC_DIR),$(wildcard $(dir)/*.cpp))))
 OBJ	:= $(patsubst %.ld,$(BLD_DIR)/$(ARCH)-%.o, $(patsubst %.S,$(BLD_DIR)/$(ARCH)-%.o, $(patsubst %.cpp,$(BLD_DIR)/$(ARCH)-%.o, $(SRC))))
 DEP	:= $(patsubst %.o,%.d, $(OBJ))
+ifeq ($(ARCH),aarch64)
+HYP	:= $(BLD_DIR)/$(ARCH)-$(BOARD)-hypervisor
+else
 HYP	:= $(BLD_DIR)/$(ARCH)-hypervisor
+endif
 ELF	:= $(HYP).elf
 BIN	:= $(HYP).bin
 
@@ -70,7 +74,10 @@ VPATH	:= $(SRC_DIR)
 # Optimization options
 DFLAGS	:= -MP -MMD -pipe
 OFLAGS	:= -Os
-ifeq ($(ARCH),x86_64)
+ifeq ($(ARCH),aarch64)
+AFLAGS	:= -march=armv8-a -mcmodel=large -mgeneral-regs-only -mstrict-align
+DEFINES	+= BOARD_$(BOARD)
+else ifeq ($(ARCH),x86_64)
 AFLAGS	:= -m64 -march=core2 $(or $(call check,-mno-sse -mpreferred-stack-boundary=3), $(call check,-mpreferred-stack-boundary=4)) -mcmodel=kernel -mno-red-zone
 else ifeq ($(ARCH),x86_32)
 AFLAGS	:= -m32 -march=i686 -mpreferred-stack-boundary=2 -mregparm=3
