@@ -39,6 +39,9 @@ void Smmu::init()
     if (!SMMU_SIZE)
         return;
 
+    // Reserve MMIO region
+    Pd::remove_mem_user (SMMU_BASE, SMMU_SIZE);
+
     Hptp::master.update (DEV_GLOBL_SMMU, SMMU_BASE, 0,
                          Paging::Permissions (Paging::R | Paging::W | Paging::G),
                          Memtype::Index::DEV, Memtype::Shareability::NONE);
